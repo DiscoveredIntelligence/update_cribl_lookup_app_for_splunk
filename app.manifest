@@ -1,0 +1,50 @@
+{
+    "dependencies": {
+        "splunk": {
+            "version": ">=9.0.0"
+        }
+    },
+    "info": {
+        "author": [
+            {
+                "company": "Discovered Intelligence",
+                "email": "support@discoveredintelligence.ca",
+                "name": "Discovered Intelligence Inc."
+            }
+        ],
+        "classification": {
+            "categories": [
+                "IT Operations",
+                "Security"
+            ],
+            "developmentStatus": "Production/Stable",
+            "intendedAudience": "IT, Security"
+        },
+        "commonInformationModels": null,
+        "description": "Sync Splunk lookups to Cribl Cloud.",
+        "id": {
+            "group": null,
+            "name": "UpdateCriblLookup",
+            "version": "1.0.51"
+        },
+        "license": {
+            "name": "Creative Commons BY 4.0",
+            "text": null,
+            "uri": "https://creativecommons.org/licenses/by/4.0/"
+        },
+        "releaseDate": "2026-02-23",
+        "releaseNotes": {
+            "name": "README",
+            "text": "README.md",
+            "uri": null
+        },
+        "title": "UpdateCriblLookup"
+    },
+    "schemaVersion": "2.0.0",
+    "supportedDeployments": [
+        "*"
+    ],
+    "targetWorkloads": [
+        "_search_heads"
+    ]
+}

@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Update Cribl Lookup Action</title>
+    </head>
+    <body>
+        <form class="form-horizontal form-complex">
+            <div class="control-group">
+                <label class="control-label" for="cribl_worker_group">Worker Group</label>
+                <div class="controls">
+                    <splunk-search-dropdown
+                        name="action.update_cribl_lookup.param.cribl_worker_group"
+                        search="| rest /servicesNS/nobody/UpdateCriblLookup/workergroups_list | table value"
+                        value-field="value"
+                        label-field="value"
+                        value=""
+                        default-label="Select a worker group..."
+                    ></splunk-search-dropdown>
+                    <span class="help-block">Select the Cribl worker group to update with the search results</span>
+                </div>
+            </div>
+            <br clear="both" />
+            <div class="control-group">
+                <label class="control-label" for="lookup_file_name">Lookup File Name</label>
+                <div class="controls">
+                    <splunk-search-dropdown
+                        name="action.update_cribl_lookup.param.lookup_file_name"
+                        search="| rest /servicesNS/nobody/UpdateCriblLookup/lookups_list | table value"
+                        value-field="value"
+                        label-field="value"
+                        value=""
+                        default-label="Select a lookup file..."
+                    ></splunk-search-dropdown>
+                    <span class="help-block">Select the lookup file to update in the Cribl worker group</span>
+                </div>
+            </div>
+            <br clear="both" />
+            <div class="control-group">
+                <label class="control-label" for="commit_message">Commit Message (Optional)</label>
+                <div class="controls">
+                    <input type="text" name="action.update_cribl_lookup.param.commit_message" 
+                        value="" placeholder="Optional custom commit message" />
+                    <span class="help-block">Optional custom commit message for the Cribl deployment. If not 
+                        provided, a default message will be generated.</span>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>

@@ -1,0 +1,394 @@
+{
+    "meta": {
+        "name": "UpdateCriblLookup",
+        "displayName": "Update Cribl Lookup",
+        "version": "1.0.51",
+        "restRoot": "updatecribllookup",
+        "schemaVersion": "0.0.10",
+        "_uccVersion": "6.1.0"
+    },
+    "pages": {
+        "configuration": {
+            "title": "Update Cribl Lookup Configuration",
+            "description": "Configure the Cribl settings for the lookup operations.",
+            "tabs": [
+                {
+                    "name": "leaders",
+                    "title": "Cribl Leaders",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Leader Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Cribl Cloud URL",
+                                "field": "cribl_cloud_url"
+                            },
+                            {
+                                "label": "Enabled",
+                                "field": "enabled"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Leader Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "Descriptive name for the Cribl leader (e.g., US_primary_cribl_leader). This will be the stanza name.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$",
+                                    "errorMsg": "Must be a valid name (alphanumeric, underscore, period, hyphen, starting with alphanumeric)."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "cribl_cloud_url",
+                            "label": "Cribl Cloud URL",
+                            "type": "text",
+                            "required": true,
+                            "help": "The full Cribl Cloud URL (e.g., https://main-reduced-rincer-6axn5xu.cribl.cloud).",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 10,
+                                    "maxLength": 255
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^https?://[^\\s/$.?#].[^\\s]*$",
+                                    "errorMsg": "Invalid URL format. Must start with http:// or https://."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "client_id",
+                            "label": "Client ID",
+                            "type": "text",
+                            "required": true,
+                            "help": "OAuth Client ID for Cribl API.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                }
+                            ]
+                        },
+                        {
+                            "field": "client_secret",
+                            "label": "Client Secret",
+                            "type": "text",
+                            "required": true,
+                            "encrypted": true,
+                            "help": "OAuth Client Secret for Cribl API. Will be stored encrypted.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255
+                                }
+                            ]
+                        },
+                        {
+                            "field": "enabled",
+                            "label": "Enabled",
+                            "type": "checkbox",
+                            "defaultValue": true
+                        }
+                    ]
+                },
+                {
+                    "name": "workergroups",
+                    "title": "Cribl Worker Groups",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Worker Group Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Associated Leader",
+                                "field": "associated_leader_name"
+                            },
+                            {
+                                "label": "Enabled",
+                                "field": "enabled"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Worker Group Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "The exact name/ID of the Cribl worker group. This will be the stanza name. Note: Due to limitations in Splunk, this cannot be 'default'. If you are adding the default worker group, please use 'cribl_default' instead.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z0-9][a-zA-Z0-9_.-]*$",
+                                    "errorMsg": "Must be a valid name (alphanumeric, underscore, period, hyphen, starting with alphanumeric)."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "associated_leader_name",
+                            "label": "Associated Leader",
+                            "type": "multipleSelect",
+                            "required": true,
+                            "help": "Select the configured Cribl Leader this worker group belongs to.",
+                            "options": {
+                                "endpointUrl": "leaders_list",
+                                "valueField": "value",
+                                "labelField": "label",
+                                "createSearchChoice": true
+                            },
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 80
+                                }
+                            ]
+                        },
+                        {
+                            "field": "enabled",
+                            "label": "Enabled",
+                            "type": "checkbox",
+                            "defaultValue": true
+                        }
+                    ]
+                },
+                {
+                    "name": "lookups",
+                    "title": "Lookup Definitions",
+                    "table": {
+                        "actions": [
+                            "edit",
+                            "delete",
+                            "clone"
+                        ],
+                        "header": [
+                            {
+                                "label": "Lookup File Name",
+                                "field": "name"
+                            },
+                            {
+                                "label": "Enabled",
+                                "field": "enabled"
+                            }
+                        ]
+                    },
+                    "entity": [
+                        {
+                            "field": "name",
+                            "label": "Lookup File Name",
+                            "type": "text",
+                            "required": true,
+                            "help": "The name of the lookup file (e.g., my_lookup.csv). This will be the stanza name.",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^[a-zA-Z0-9_.-]+\\.[a-zA-Z0-9]+$",
+                                    "errorMsg": "Must be a valid file name with an extension (e.g., my_lookup.csv). Use alphanumeric, underscore, period, or hyphen for the name and extension."
+                                }
+                            ]
+                        },
+                        {
+                            "field": "enabled",
+                            "label": "Enabled",
+                            "type": "checkbox",
+                            "defaultValue": true
+                        }
+                    ]
+                },
+                {
+                    "name": "updatecribllookup_proxy",
+                    "title": "Network Settings",
+                    "entity": [
+                        {
+                            "field": "verify_ssl",
+                            "label": "Verify SSL Certificates",
+                            "type": "checkbox",
+                            "defaultValue": true,
+                            "help": "Verify SSL certificates when making HTTPS requests to Cribl Cloud. Disable for use with self-signed certificates."
+                        },
+                        {
+                            "field": "proxy_enabled",
+                            "label": "Enable Proxy",
+                            "type": "checkbox",
+                            "defaultValue": false
+                        },
+                        {
+                            "field": "proxy_type",
+                            "label": "Proxy Type",
+                            "type": "singleSelect",
+                            "required": false,
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "label": "http",
+                                        "value": "http"
+                                    },
+                                    {
+                                        "label": "socks4",
+                                        "value": "socks4"
+                                    },
+                                    {
+                                        "label": "socks5",
+                                        "value": "socks5"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "http",
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 10
+                                },
+                                {
+                                    "type": "regex",
+                                    "pattern": "^(http|socks4|socks5)$",
+                                    "errorMsg": "Proxy type must be one of: http, socks4, socks5"
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_url",
+                            "label": "Proxy Host",
+                            "type": "text",
+                            "required": false,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 4096
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_port",
+                            "label": "Proxy Port",
+                            "type": "text",
+                            "required": false,
+                            "validators": [
+                                {
+                                    "type": "number",
+                                    "range": [
+                                        1,
+                                        65535
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_username",
+                            "label": "Proxy Username",
+                            "type": "text",
+                            "required": false,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 255
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_password",
+                            "label": "Proxy Password",
+                            "type": "text",
+                            "encrypted": true,
+                            "required": false,
+                            "validators": [
+                                {
+                                    "type": "string",
+                                    "minLength": 0,
+                                    "maxLength": 8192
+                                }
+                            ]
+                        },
+                        {
+                            "field": "proxy_rdns",
+                            "label": "Remote DNS resolution",
+                            "type": "checkbox",
+                            "defaultValue": false
+                        }
+                    ],
+                    "options": {
+                        "saveValidator": "function(formData) { if(!formData.proxy_enabled || formData.proxy_enabled === '0' || formData.proxy_enabled === false) {return true; } if(!formData.proxy_url) { return 'Proxy Host cannot be empty when proxy is enabled.'; } if(!formData.proxy_port) { return 'Proxy Port cannot be empty when proxy is enabled.'; } return true; }"
+                    }
+                },
+                {
+                    "name": "updatecribllookup_logging",
+                    "title": "Logging",
+                    "entity": [
+                        {
+                            "type": "singleSelect",
+                            "label": "Log level",
+                            "options": {
+                                "disableSearch": true,
+                                "autoCompleteFields": [
+                                    {
+                                        "value": "INFO",
+                                        "label": "INFO"
+                                    },
+                                    {
+                                        "value": "DEBUG",
+                                        "label": "DEBUG"
+                                    },
+                                    {
+                                        "value": "ERROR",
+                                        "label": "ERROR"
+                                    }
+                                ]
+                            },
+                            "defaultValue": "INFO",
+                            "field": "loglevel",
+                            "required": true,
+                            "validators": [
+                                {
+                                    "type": "regex",
+                                    "errorMsg": "Log level must be one of: INFO, DEBUG, ERROR",
+                                    "pattern": "^INFO|DEBUG|ERROR$"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}
