@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "UpdateCriblLookup",
-        "version": "1.0.51",
+        "version": "1.0.52",
         "description": "Update Cribl Lookup",
         "contact": {
             "name": "Discovered Intelligence Inc.",

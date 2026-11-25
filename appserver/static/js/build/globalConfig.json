@@ -2,10 +2,10 @@
     "meta": {
         "name": "UpdateCriblLookup",
         "displayName": "Update Cribl Lookup",
-        "version": "1.0.51",
+        "version": "1.0.52",
         "restRoot": "updatecribllookup",
         "schemaVersion": "0.0.10",
-        "_uccVersion": "6.1.0"
+        "_uccVersion": "6.6.1"
     },
     "pages": {
         "configuration": {

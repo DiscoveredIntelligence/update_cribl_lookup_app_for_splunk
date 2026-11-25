@@ -25,7 +25,7 @@
         "id": {
             "group": null,
             "name": "UpdateCriblLookup",
-            "version": "1.0.51"
+            "version": "1.0.52"
         },
         "license": {
             "name": "Creative Commons BY 4.0",
